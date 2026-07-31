@@ -1,7 +1,8 @@
 # CodeSage 🚀
 > **Talk to your repository with CodeSage. Advanced AI-Powered Code Intelligence and Analysis.**
 
-🌐 **Live Demo**: [https://code-sage-dun.vercel.app](https://code-sage-dun.vercel.app)
+- 🌐 **Vercel Live Demo**: [https://code-sage-dun.vercel.app](https://code-sage-dun.vercel.app)
+- 🚀 **Render Live Service**: [https://codesage-lkxu.onrender.com](https://codesage-lkxu.onrender.com)
 
 CodeSage is a modern, high-performance web application designed to analyze Git repositories, summarize commits, index source code embeddings using PostgreSQL vector search (`pgvector`), and provide instant AI-driven code intelligence using **Groq** (`llama-3.3-70b-versatile`).
 
@@ -42,11 +43,12 @@ CodeSage is a modern, high-performance web application designed to analyze Git r
 Create a `.env` file inside the `client` directory (or copy `.env.example`):
 
 ```env
-DATABASE_URL="postgresql://user:password@host:5432/neondb?sslmode=require&schema=codesage"
+DATABASE_URL="postgresql://user:password@host:5432/neondb?sslmode=require"
 NODE_ENV="development"
 URL="http://localhost:3000"
 GROQ_API_KEY="your-groq-api-key"
-GITHUB_TOKEN="your-github-access-token"
+GITHUB_ACCESS_TOKEN="your-github-access-token"
+GEMINI_API_KEY="your-gemini-api-key"
 ```
 
 ---

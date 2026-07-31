@@ -1,6 +1,7 @@
 # CodeSage Client App
 
-🌐 **Live Demo**: [https://code-sage-dun.vercel.app](https://code-sage-dun.vercel.app)
+- 🌐 **Vercel Live Demo**: [https://code-sage-dun.vercel.app](https://code-sage-dun.vercel.app)
+- 🚀 **Render Live Service**: [https://codesage-lkxu.onrender.com](https://codesage-lkxu.onrender.com)
 
 This is the Next.js frontend and server application for **CodeSage** — Premium Code Intelligence & AI Analysis.
 
@@ -18,5 +19,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to launch 
 
 - **Framework**: Next.js 15 (App Router) & React 19
 - **Styling**: Tailwind CSS & Radix UI
-- **AI**: Groq API (`llama-3.3-70b-versatile`)
+- **AI**: Groq API (`llama-3.3-70b-versatile`) & Gemini API (`text-embedding-004`)
 - **Database**: PostgreSQL with Prisma ORM (`pgvector`)
