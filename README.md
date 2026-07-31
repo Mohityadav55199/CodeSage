@@ -1,6 +1,8 @@
 # CodeSage 🚀
 > **Talk to your repository with CodeSage. Advanced AI-Powered Code Intelligence and Analysis.**
 
+🌐 **Live Demo**: [https://code-sage-dun.vercel.app](https://code-sage-dun.vercel.app)
+
 CodeSage is a modern, high-performance web application designed to analyze Git repositories, summarize commits, index source code embeddings using PostgreSQL vector search (`pgvector`), and provide instant AI-driven code intelligence using **Groq** (`llama-3.3-70b-versatile`).
 
 ---

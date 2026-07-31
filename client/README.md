@@ -1,5 +1,7 @@
 # CodeSage Client App
 
+🌐 **Live Demo**: [https://code-sage-dun.vercel.app](https://code-sage-dun.vercel.app)
+
 This is the Next.js frontend and server application for **CodeSage** — Premium Code Intelligence & AI Analysis.
 
 ## Getting Started
