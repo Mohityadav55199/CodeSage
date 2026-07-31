@@ -4,12 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "npm --prefix client run dev",
-    "build": "cd client && npm install --legacy-peer-deps && npx prisma@6.16.2 generate && npm run build",
+    "build": "cd client && npm install --legacy-peer-deps && npx prisma generate && npm run build",
     "start": "cd client && npm start",
-    "postinstall": "cd client && npm install --legacy-peer-deps && npx prisma@6.16.2 generate"
+    "postinstall": "cd client && npm install --legacy-peer-deps && npx prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "6.16.2",
-    "prisma": "6.16.2"
+    "@prisma/client": "^7.0.0",
+    "prisma": "^7.0.0"
   }
 }
