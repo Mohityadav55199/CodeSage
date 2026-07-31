@@ -134,4 +134,4 @@ const UserNav = ({ user }: { user: User | null }) => {
     );
 };
 
-export default UserNav;
+export default Navbar;

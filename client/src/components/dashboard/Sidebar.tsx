@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, JSX } from "react";
 import { useProject, Project } from "../ProjectProvider";
+import { ThemeToggle } from "../ThemeToggle";
 
 // UI Components
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -127,10 +128,12 @@ export const SidebarComp = ({ projects, setProjectId, isLoading }: SidebarCompPr
                             )}
                         </ul>
                     </nav>
-                </div>
-
                 {/* Footer */}
-                <div className="p-4 mt-auto border-t border-white/5">
+                <div className="p-4 mt-auto border-t border-border flex flex-col gap-2">
+                    <div className="flex items-center justify-between gap-2">
+                        {!collapsed && <span className="text-xs font-semibold text-muted-foreground">Theme</span>}
+                        <ThemeToggle />
+                    </div>
                     <SidebarLink
                         href="/create"
                         label="New Project"
