@@ -128,6 +128,8 @@ export const SidebarComp = ({ projects, setProjectId, isLoading }: SidebarCompPr
                             )}
                         </ul>
                     </nav>
+                </div>
+
                 {/* Footer */}
                 <div className="p-4 mt-auto border-t border-border flex flex-col gap-2">
                     <div className="flex items-center justify-between gap-2">
