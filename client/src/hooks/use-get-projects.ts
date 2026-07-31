@@ -45,7 +45,8 @@ export interface TeamMember {
     id: string;
     user: {
         id: string;
-        firstName: string | null;
+        name: string | null;
+        email: string;
         imageUrl: string | null;
     };
 }
