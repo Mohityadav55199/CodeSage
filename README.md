@@ -78,8 +78,3 @@ GEMINI_API_KEY="your-gemini-api-key"
 
 5. Open **[http://localhost:3000](http://localhost:3000)** in your browser!
 
----
-
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for details.
