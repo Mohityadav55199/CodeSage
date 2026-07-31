@@ -13,6 +13,9 @@ import { PlusCircle, FolderKanban, Loader2, ArrowRight, Activity, Sparkles } fro
 import MeetingCard from "./MeetingCard";
 import { cn } from "@/lib/utils";
 
+import { RepoStats } from "./RepoStats";
+import { RefactorCard } from "./RefactorCard";
+
 const Dashboard = () => {
     // Fetches project data using the provided hook
     const { projects, isLoading, setProjectId } = useProject();
@@ -21,13 +24,16 @@ const Dashboard = () => {
         <div className="flex flex-col gap-10 p-6 md:p-12 lg:p-16 max-w-7xl mx-auto">
             {/* Header Section */}
             <div className="flex flex-col gap-2">
-                <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-gradient">
+                <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-foreground">
                     Welcome Back<span className="text-primary">.</span>
                 </h1>
                 <p className="text-muted-foreground text-lg">
-                    Monitor your repositories and gain deep insights with CodeSage.
+                    Monitor your repositories and gain deep insights with CodeSage. Press <kbd className="px-2 py-0.5 text-xs font-mono rounded bg-muted border border-border">Ctrl + K</kbd> anytime.
                 </p>
             </div>
+
+            {/* Repository Health & Stats Overview */}
+            <RepoStats />
 
             {/* ## Get Started Section */}
             <section className="space-y-8">
@@ -43,7 +49,7 @@ const Dashboard = () => {
                         className="group relative"
                     >
                         <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent rounded-3xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-                        <Card className="glass relative flex flex-col items-center justify-center p-10 h-full border-white/5 transition-all duration-500 ease-out group-hover:bg-white/10 group-hover:-translate-y-2">
+                        <Card className="glass relative flex flex-col items-center justify-center p-10 h-full border border-border transition-all duration-500 ease-out group-hover:bg-accent/40 group-hover:-translate-y-1">
                             <div className="p-4 bg-primary/10 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-500">
                                 <PlusCircle className="h-10 w-10 text-primary group-hover:rotate-90 transition-transform duration-500" />
                             </div>
@@ -65,6 +71,9 @@ const Dashboard = () => {
                     </div>
                 </div>
             </section>
+
+            {/* AI Security & Refactor Tool */}
+            <RefactorCard />
 
             {/* ## Existing Projects Section */}
             <section className="space-y-8">

@@ -12,7 +12,7 @@ import CodeRefrence from './code-refrence'
 import { useSaveAnswer } from '@/hooks/use-save-answer'
 import { useProject } from '../ProjectProvider'
 import { useAuth } from '../AuthProvider'
-import { Sparkles, Loader2, ArrowRight, Cpu } from 'lucide-react'
+import { Sparkles, Loader2, ArrowRight, Cpu, Mic, MicOff, Download } from 'lucide-react'
 import {
     Select,
     SelectContent,
@@ -32,9 +32,63 @@ const AskQuestionCard = () => {
     const [filesReferences, setFilesReferences] = useState<{ fileName: string, sourceCode: string, summary: string }[]>([])
     const [answer, setAnswer] = useState('')
     const [selectedModel, setSelectedModel] = useState("llama-3.3-70b-versatile")
+    const [isListening, setIsListening] = useState(false)
 
     const saveAnswer = useSaveAnswer();
     const refetch = useRefetch();
+
+    const handleVoiceInput = () => {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            toast.error("Speech recognition is not supported in your browser");
+            return;
+        }
+
+        const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        if (isListening) {
+            recognition.stop();
+            setIsListening(false);
+            return;
+        }
+
+        setIsListening(true);
+        toast.info("Listening... Speak your question now.");
+
+        recognition.onresult = (event: any) => {
+            const transcript = event.results[0][0].transcript;
+            setQuestion((prev) => (prev ? `${prev} ${transcript}` : transcript));
+            setIsListening(false);
+            toast.success("Voice captured!");
+        };
+
+        recognition.onerror = () => {
+            setIsListening(false);
+            toast.error("Could not capture speech");
+        };
+
+        recognition.onend = () => {
+            setIsListening(false);
+        };
+
+        recognition.start();
+    };
+
+    const exportMarkdown = () => {
+        if (!answer) return;
+        const mdContent = `# CodeSage AI Analysis\n\n**Question:** ${question}\n\n**Model:** ${selectedModel}\n\n---\n\n${answer}\n\n### References:\n${filesReferences.map(f => `- \`${f.fileName}\``).join('\n')}`;
+        const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `codesage-analysis-${Date.now()}.md`;
+        a.click();
+        URL.revokeObjectURL(url);
+        toast.success("Exported Markdown report");
+    };
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -113,42 +167,54 @@ const AskQuestionCard = () => {
                                 </div>
                             </div>
 
-                            <Button
-                                className="rounded-xl font-bold bg-primary text-primary-foreground hover:shadow-lg transition-all"
-                                disabled={saveAnswer.isPending || !answer}
-                                onClick={() => {
-                                    if (!userId || !projectId) {
-                                        toast.error(!userId ? "User ID missing" : "Project ID missing")
-                                        return
-                                    }
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    variant="outline"
+                                    onClick={exportMarkdown}
+                                    disabled={!answer}
+                                    className="rounded-xl font-semibold border-border bg-background hover:bg-accent"
+                                >
+                                    <Download className="mr-2 h-4 w-4" />
+                                    Export .md
+                                </Button>
 
-                                    saveAnswer.mutate(
-                                        {
-                                            projectId: projectId as string,
-                                            question,
-                                            answer,
-                                            filesRefrences: filesReferences,
-                                            userId,
-                                        },
-                                        {
-                                            onSuccess: () => {
-                                                toast.success('Answer saved to your knowledge base')
-                                                refetch();
-                                            },
-                                            onError: () => {
-                                                toast.error("Failed to save answer");
-                                            },
+                                <Button
+                                    className="rounded-xl font-bold bg-primary text-primary-foreground hover:shadow-lg transition-all"
+                                    disabled={saveAnswer.isPending || !answer}
+                                    onClick={() => {
+                                        if (!userId || !projectId) {
+                                            toast.error(!userId ? "User ID missing" : "Project ID missing")
+                                            return
                                         }
-                                    )
-                                }}
-                            >
-                                {saveAnswer.isPending ? (
-                                    <>
-                                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Saving...
-                                    </>
-                                ) : "Save Insight"}
-                            </Button>
+
+                                        saveAnswer.mutate(
+                                            {
+                                                projectId: projectId as string,
+                                                question,
+                                                answer,
+                                                filesRefrences: filesReferences,
+                                                userId,
+                                            },
+                                            {
+                                                onSuccess: () => {
+                                                    toast.success('Answer saved to your knowledge base')
+                                                    refetch();
+                                                },
+                                                onError: () => {
+                                                    toast.error("Failed to save answer");
+                                                },
+                                            }
+                                        )
+                                    }}
+                                >
+                                    {saveAnswer.isPending ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Saving...
+                                        </>
+                                    ) : "Save Insight"}
+                                </Button>
+                            </div>
                         </div>
                     </DialogHeader>
 
@@ -218,12 +284,31 @@ const AskQuestionCard = () => {
                 </CardHeader>
                 <CardContent className="relative z-10">
                     <form onSubmit={onSubmit} className="space-y-6">
-                        <Textarea
-                            className='min-h-[120px] border border-input bg-background/80 rounded-2xl focus-visible:ring-primary/40 transition-all resize-none p-6 text-base placeholder:text-muted-foreground/60 shadow-inner'
-                            placeholder='e.g., Which file handles authentication and user sessions?'
-                            value={question}
-                            onChange={(e) => setQuestion(e.target.value)}
-                        />
+                        <div className="relative">
+                            <Textarea
+                                className='min-h-[120px] border border-input bg-background/80 rounded-2xl focus-visible:ring-primary/40 transition-all resize-none p-6 pr-14 text-base placeholder:text-muted-foreground/60 shadow-inner'
+                                placeholder='e.g., Which file handles authentication and user sessions?'
+                                value={question}
+                                onChange={(e) => setQuestion(e.target.value)}
+                            />
+
+                            {/* Voice Dictation Button */}
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                onClick={handleVoiceInput}
+                                className={`absolute right-4 bottom-4 rounded-xl transition-all ${
+                                    isListening
+                                        ? 'bg-rose-500 text-white animate-pulse'
+                                        : 'hover:bg-accent text-muted-foreground hover:text-foreground'
+                                }`}
+                                title={isListening ? 'Listening...' : 'Speak your question'}
+                            >
+                                {isListening ? <Mic className="h-5 w-5 animate-bounce" /> : <Mic className="h-5 w-5" />}
+                            </Button>
+                        </div>
+
                         <Button 
                             type='submit' 
                             disabled={loading || !question.trim()}

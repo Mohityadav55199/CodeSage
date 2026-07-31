@@ -8,6 +8,8 @@ import { Spinner } from "@/components/Spinner";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+import { CommandPalette } from "@/components/CommandPalette";
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { user, isLoading: isAuthLoading } = useAuth();
     const { projects, setProjectId, isLoading: isProjectLoading } = useProject();
@@ -25,6 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     
     return (
         <div className="flex h-screen w-screen overflow-hidden bg-muted/40 font-sans">
+            <CommandPalette />
             <SidebarComp projects={projects} isLoading={isProjectLoading} setProjectId={setProjectId}/>
 
             <div className="flex flex-1 flex-col">
