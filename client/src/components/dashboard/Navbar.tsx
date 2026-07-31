@@ -32,9 +32,9 @@ const getInitials = (name: string) => {
         .join('');
 };
 
+import { ThemeToggle } from "@/components/ThemeToggle";
+
 export const Navbar = ({ user }: { user: User | null }) => {
-    
-    
     return (
         <header className="sticky top-0 z-10 w-full h-16 px-4 md:px-6 flex items-center justify-between bg-card/80 backdrop-blur-md border-b border-border">
             {/* Search Bar */}
@@ -47,8 +47,9 @@ export const Navbar = ({ user }: { user: User | null }) => {
                 />
             </div>
 
-            {/* User Navigation */}
-            <div className="ml-4">
+            {/* Actions & User Navigation */}
+            <div className="flex items-center gap-3 ml-4">
+                <ThemeToggle />
                 <UserNav user={user} />
             </div>
         </header>
