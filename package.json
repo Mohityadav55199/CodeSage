@@ -9,7 +9,7 @@
     "postinstall": "cd client && npm install --legacy-peer-deps && npx prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^7.0.0",
-    "prisma": "^7.0.0"
+    "@prisma/client": "^6.16.2",
+    "prisma": "^6.16.2"
   }
 }
