@@ -1,7 +1,5 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       {
@@ -25,12 +23,11 @@ const nextConfig: NextConfig = {
     ],
   },
   eslint: {
-    ignoreDuringBuilds: true, // skips ESLint errors/warnings on production build
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: true, // allows production build even if TS errors exist
+    ignoreBuildErrors: true,
   },
-
 };
 
 export default nextConfig;
